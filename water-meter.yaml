@@ -1,0 +1,47 @@
+esphome:
+  name: rflink32-water-receiver
+  comment: "RFLink32 ESP32-C3 + CC1101 Water Meter Receiver"
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: esp-idf
+
+# Pulls the wmbusmeters engine into ESPHome
+external_components:
+  - source: github://SzczepanLeon/esphome-components
+    components: [ wmbus, wmbus_radio ]
+
+# Configure your RFLink32 SPI Bus pins here
+spi:
+  clk_pin: GPIO4     # Your SCK-IO4
+  mosi_pin: GPIO6    # Your MOSI-IO6
+  miso_pin: GPIO5    # Your MISO-IO5
+
+wmbus:
+  id: wmbus_receiver
+  log_unknown: true
+
+wmbus_radio:
+  radio_type: CC1101
+  cs_pin: GPIO7      # Your CSN-IO7
+  irq_pin: GPIO2     # Your GDO0-IO2
+  frequency: 868.95MHz
+
+sensor:
+  - platform: wmbus
+    meter_id: 0xFFFFFFFF  # Listens to all meters to find yours
+    type: izar            
+    water_usage:
+      name: "Diehl Total Water Volume"
+      
+logger:
+  level: INFO
+
+wifi:
+  ssid: "VM6617823"      # Replace with your actual Wi-Fi
+  password: "gt4CjtyhM7hj"  # Replace with your actual Wi-Fi password
+
+ota:
+  - platform: esphome
