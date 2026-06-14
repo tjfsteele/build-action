@@ -40,8 +40,8 @@ logger:
   level: INFO
 
 wifi:
-  ssid: "VM6617823"      # Replace with your actual Wi-Fi
-  password: "gt4CjtyhM7hj"  # Replace with your actual Wi-Fi password
+  ssid: "${WIFI_SSID}"
+  password: "${WIFI_PASSWORD}"
 
 ota:
   - platform: esphome
